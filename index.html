@@ -1,97 +1,349 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamVerse | عالم الترفيه</title>
+    <title>StreamVerse</title>
     <style>
-        /* تصميم سينمائي عصري ومريح للعين والشاشات الكبيرة */
+        :root {
+            --bg-color: #0c0f12;
+            --card-bg: #1a1f26;
+            --accent-color: #e50914;
+            --text-color: #ffffff;
+            --text-muted: #9ca3af;
+            --focus-border: #3b82f6;
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #0b0c10;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
             padding: 20px;
         }
 
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background: rgba(26, 26, 29, 0.6);
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid #1f2833;
-            backdrop-filter: blur(10px);
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            margin-bottom: 30px;
         }
 
-        h1 {
-            font-size: 3rem;
-            color: #66fcf1;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(102, 252, 241, 0.3);
-        }
-
-        p {
-            font-size: 1.2rem;
-            color: #c5a059;
-            margin-bottom: 40px;
-        }
-
-        .main-btn {
-            display: inline-block;
-            padding: 15px 40px;
-            font-size: 1.3rem;
+        .logo {
+            font-size: 2rem;
             font-weight: bold;
-            color: #0b0c10;
-            background-color: #66fcf1;
-            border: none;
-            border-radius: 50px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+        
+        /* Focus state for Smart TV / Keyboard navigation */
+        .focusable:focus {
+            outline: 3px solid var(--focus-border);
+            outline-offset: 4px;
+            transform: scale(1.03);
+        }
+
+        /* --- HOMEPAGE / GRID --- */
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-left: 10px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 25px;
+            padding: 10px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
             cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(102, 252, 241, 0.4);
+            transition: transform 0.2s, outline 0.2s;
+            display: flex;
+            flex-direction: column;
         }
 
-        .main-btn:hover {
-            background-color: #45a29e;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(102, 252, 241, 0.6);
+        .card img {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            background-color: #2a313d;
         }
 
-        .footer {
-            margin-top: 50px;
-            font-size: 0.9rem;
-            color: #45a29e;
+        .card-info {
+            padding: 12px;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-type {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* --- DETAIL & PLAYER VIEW --- */
+        .back-btn {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover { background: #252d37; }
+
+        .detail-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .player-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+        }
+
+        .details-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .episode-list {
+            margin-top: 25px;
+        }
+
+        .episode-item {
+            background: var(--card-bg);
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+
+        .episode-item.active {
+            border-left: 4px solid var(--accent-color);
+            background: #222933;
+        }
+
+        /* Smart TV Optimizations (Larger elements for distance viewing) */
+        @media (min-width: 1280px) {
+            body { padding: 40px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 30px; }
+            .card-title { font-size: 1.2rem; }
+            .section-title { font-size: 1.8rem; }
+            .episode-item { padding: 20px 25px; font-size: 1.1rem; }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+            body { padding: 10px; }
+            header { margin-bottom: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>StreamVerse</h1>
-        <p>مرحباً بك في منصتك الترفيهية المخصصة للتلفزيون والشاشات الذكية</p>
+    <header>
+        <div class="logo">StreamVerse</div>
+    </header>
+
+    <main id="home-view">
+        <h2 class="section-title">Trending Series & Anime</h2>
+        <div class="grid" id="series-grid"></div>
+    </main>
+
+    <main id="detail-view" class="hidden">
+        <button class="back-btn focusable" id="back-button" tabindex="0">← Back to Home</button>
         
-        <!-- يمكنك تغيير هذا الزر ليوجهك لأي منصة أو مشغل تريده لاحقاً -->
-        <a href="#" class="main-btn">ابدأ المشاهدة الآن</a>
-    </div>
+        <div class="detail-container">
+            <div class="player-wrapper">
+                <video id="video-player" controls poster="">
+                    <source id="video-source" src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
 
-    <div class="footer">
-        &copy; 2026 StreamVerse - جميع الحقوق محفوظة
-    </div>
+            <div class="details-content">
+                <h1 id="show-title">Series Title</h1>
+                <p id="show-description" style="color: var(--text-muted); margin-top: 10px;"></p>
+                
+                <div class="episode-list">
+                    <h3 class="section-title" style="margin-bottom: 15px;">Episodes</h3>
+                    <div id="episodes-container"></div>
+                </div>
+            </div>
+        </div>
+    </main>
 
+    <script>
+        // Mock Data for testing (Replace URLs with your actual video links / poster paths)
+        const contentData = [
+            {
+                id: "anime-1",
+                title: "Cyber Samurai",
+                type: "Anime",
+                poster: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&q=80",
+                description: "In a neon-drenched future, a lone cybernetic warrior fights to restore honor to a broken neo-Tokyo.",
+                episodes: [
+                    { title: "Episode 1: The Awakening", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" },
+                    { title: "Episode 2: Neon Shadows", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" },
+                    { title: "Episode 3: Code of Honor", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" }
+                ]
+            },
+            {
+                id: "series-2",
+                title: "Chronicles of Time",
+                type: "TV Series",
+                poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&q=80",
+                description: "A team of scientists accidentally shatters the timeline and must travel through history to fix their mistake.",
+                episodes: [
+                    { title: "Episode 1: The Rift", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" },
+                    { title: "Episode 2: Ancient Echoes", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" }
+                ]
+            }
+        ];
+
+        const homeView = document.getElementById('home-view');
+        const detailView = document.getElementById('detail-view');
+        const seriesGrid = document.getElementById('series-grid');
+        const episodesContainer = document.getElementById('episodes-container');
+        const videoPlayer = document.getElementById('video-player');
+        const videoSource = document.getElementById('video-source');
+        
+        // Render Homepage
+        function renderHome() {
+            seriesGrid.innerHTML = '';
+            contentData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card focusable';
+                card.tabIndex = 0; // Makes it selectable via TV Remote / Keyboard
+                card.innerHTML = `
+                    <img src="${item.poster}" alt="${item.title}">
+                    <div class="card-info">
+                        <div class="card-title">${item.title}</div>
+                        <div class="card-type">${item.type}</div>
+                    </div>
+                `;
+                card.addEventListener('click', () => openSeries(item));
+                card.addEventListener('keydown', (e) => { if(e.key === 'Enter') openSeries(item); });
+                seriesGrid.appendChild(card);
+            });
+        }
+
+        // Open Series Detail Page
+        function openSeries(item) {
+            homeView.classList.add('hidden');
+            detailView.classList.remove('hidden');
+            
+            document.getElementById('show-title').innerText = item.title;
+            document.getElementById('show-description').innerText = item.description;
+            
+            episodesContainer.innerHTML = '';
+            item.episodes.forEach((ep, index) => {
+                const epItem = document.createElement('div');
+                epItem.className = 'episode-item focusable';
+                epItem.tabIndex = 0;
+                epItem.innerText = ep.title;
+                
+                const playEp = () => {
+                    // Highlight Active Episode
+                    document.querySelectorAll('.episode-item').forEach(el => el.classList.remove('active'));
+                    epItem.classList.add('active');
+                    // Load and Play Video
+                    videoSource.src = ep.url;
+                    videoPlayer.load();
+                    videoPlayer.play();
+                    videoPlayer.scrollIntoView({ behavior: 'smooth' });
+                };
+
+                epItem.addEventListener('click', playEp);
+                epItem.addEventListener('keydown', (e) => { if(e.key === 'Enter') playEp(); });
+                episodesContainer.appendChild(epItem);
+            });
+
+            // Auto-play first episode
+            if(item.episodes.length > 0) {
+                episodesContainer.firstChild.click();
+            }
+            
+            document.getElementById('back-button').focus();
+        }
+
+        // Back Button Event
+        document.getElementById('back-button').addEventListener('click', () => {
+            videoPlayer.pause();
+            detailView.classList.add('hidden');
+            homeView.classList.remove('hidden');
+        });
+
+        // Smart TV / Keyboard D-Pad Navigation Support
+        document.addEventListener('keydown', function(e) {
+            const focusables = Array.from(document.querySelectorAll('.focusable:not(.hidden)'));
+            const index = focusables.indexOf(document.activeElement);
+            
+            if (index > -1) {
+                let nextIndex = index;
+                // Simple directional mapping (Works best for sequential rows/lists)
+                if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                    nextIndex = (index + 1) % focusables.length;
+                    focusables[nextIndex].focus();
+                    e.preventDefault();
+                } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                    nextIndex = (index - 1 + focusables.length) % focusables.length;
+                    focusables[nextIndex].focus();
+                    e.preventDefault();
+                }
+            } else if (focusables.length > 0) {
+                focusables[0].focus(); // Default fallback focus
+            }
+        });
+
+        // Initialize App
+        renderHome();
+    </script>
 </body>
 </html>
