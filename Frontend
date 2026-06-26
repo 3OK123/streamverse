@@ -1,0 +1,3 @@
+npx create-next-app
+replace pages with (2-index.js + 3-series.js)
+npm run dev
